@@ -1,0 +1,86 @@
+﻿@model ASP.NET_FinalTermExam.Models.EmployeeSearchCondition
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+@using (Html.BeginForm("Index", "Employee", FormMethod.Post, new { id = "Form1" }))
+{
+    <div>
+        <h1>員工查詢</h1>
+
+        <table>
+            <tr>
+                <td>員工編號</td>
+                <td>@Html.TextBoxFor(model => model.EmployeeID)</td>
+            </tr>
+            <tr>
+                <td>員工姓名</td>
+                <td>@Html.TextBoxFor(model => model.EmpName)</td>
+            </tr>
+            <tr>
+                <td>職稱</td>
+                <td>@Html.DropDownListFor(model => model.Title, (List<SelectListItem>)ViewBag.TitleData)</td>
+            </tr>
+            <tr>
+                <td>任職日期</td>
+                <td>@Html.TextBoxFor(model => model.FirstDate, new { @type = "date" })</td>
+                <td>@Html.TextBoxFor(model => model.FinalDate, new { @type = "date" })</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" value="查詢" />
+                    <input type="reset" value="清除" />
+                    @Html.ActionLink("新增員工", "InsertOrder")
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div>
+
+
+        @if (ViewBag.Employee != null)
+        {
+            <h1>查詢結果</h1>
+                <table>
+                    <tr>
+                        <td>編號</td>
+                        <td>姓名</td>
+                        <td>職稱</td>
+                        <td>任職日期</td>
+                        <td>性別</td>
+                        <td>年齡</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @foreach (var item in ViewBag.Employee)
+                    {
+                        <tr>
+                            <td>@item.EmployeeID</td>
+                            <td>@item.EmpName</td>
+                            <td>@item.Title</td>
+                            <td>@item.HireDate</td>
+                            <td>@item.Gender</td>
+                            <td>@item.Ago</td>
+                            <td><a href="../Order/UpdateOrder?OrderID=@item.EmployeeID">修改</a></td>
+                            <td>
+                                <a class="btnDelete" href="#">刪除</a>
+                                <input class="hidEmployeeID" type="hidden" value='@item.EmployeeID' />
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+        }
+    </div>
+}
+</body>
+</html>
